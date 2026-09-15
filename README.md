@@ -1,339 +1,233 @@
-# Product Explorer
+<div align="center">
 
-A responsive product catalogue built with **Next.js, React, TypeScript, Tailwind CSS, and Framer Motion**. The application fetches products from the Fake Store API and provides search, category filtering, responsive layouts, and animated product details.
+# 🛍️ Product Explorer
 
-## Features
+### Next.js · TypeScript · Tailwind CSS · Framer Motion
 
-- Fetches products from the Fake Store API
-- Responsive product grid
-   - 1 column on mobile
-   - 2 columns on tablet
-   - 3 columns on desktop
+[![Next.js](https://img.shields.io/badge/Next.js_14-Frontend-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React_18-UI-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-Styling-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-Animations-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22C55E?style=for-the-badge)](LICENSE)
 
-- Search products by title
-- Case-insensitive search
-- Category filtering
-- Search and category filters work together
-- Product detail modal
-- Animated product cards and filtering transitions using Framer Motion
-- Smooth modal open/close animations
-- Loading state
-- Error state
-- Empty search/filter state
-- Product rating and review count
-- Responsive navigation and filter controls
-- Custom clear-search button
-- Frontend category normalization for improved product categorization
-- Keyboard-friendly interactions
-- No external UI/component library
+<br/>
 
-## Tech Stack
+> **A responsive product catalogue with search, category filtering, animated transitions, and product detail modals —**  
+> **built without any external UI component library.**
 
-- **Next.js 14**
-- **React 18**
-- **TypeScript**
-- **Tailwind CSS**
-- **Framer Motion**
-- **Fake Store API**
+<br/>
 
-## API
+[🚀 Quick Start](#-quick-start) · [✨ Features](#-features) · [🏗️ Architecture](#️-architecture) · [🎬 Animations](#-animations) · [📂 Project Structure](#-project-structure)
 
-Products are retrieved from:
+</div>
 
-`https://fakestoreapi.com/products`
+---
 
-The application validates the API response before using the product data.
+## ✨ Features
 
-## Project Structure
+| Feature | Description |
+|---------|-------------|
+| 🌐 **Fake Store API** | Fetches and validates products at load — no stale mock data |
+| 🔍 **Product Search** | Case-insensitive title search with trim before filtering |
+| 🗂️ **Category Filtering** | Dynamic categories generated from loaded product data |
+| 🔀 **Combined Filtering** | Search + category work together — both conditions must match |
+| 🪟 **Product Detail Modal** | Animated modal with image, title, price, description, rating, reviews |
+| 🎬 **Framer Motion Animations** | Fade/scale on filter change, smooth modal entrance + exit |
+| 📱 **Responsive Grid** | 1 col mobile → 2 col tablet → 3 col desktop |
+| ⚠️ **Loading / Error / Empty States** | All three API states handled — no silent failures |
+| 🏷️ **Category Normalization** | Frontend-only — API data is never modified |
+| ⌨️ **Keyboard-Friendly** | Accessible interactions throughout |
+| 🚫 **No UI Library** | Every component is custom — Tailwind only |
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    A[👤 User] --> B[🖥️ Next.js 14 App]
+    B --> C[🔗 useProducts Hook\nFetch + validate from Fake Store API]
+    C --> D[📦 Product Data\nValidated before state]
+
+    D --> E[🔍 Search Filter\nCase-insensitive + trim]
+    D --> F[🗂️ Category Filter\nDerived from loaded data]
+
+    E --> G[🔀 Combined Filter\nSearch AND category]
+    F --> G
+
+    G --> H[📐 ProductGrid\nFramer Motion layout animations]
+    H --> I[🃏 ProductCard\nFade + scale on enter/exit]
+    I -->|click| J[🪟 ProductModal\nAnimated entrance + exit]
+
+    style A fill:#e1f5fe
+    style G fill:#f3e5f5
+    style J fill:#e8f5e9
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1 · Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd product-explorer
+```
+
+### 2 · Install dependencies
+
+```bash
+npm install
+```
+
+### 3 · Start the development server
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000`
+
+> Requires network access to `https://fakestoreapi.com/products`
+
+---
+
+## 📜 Available Scripts
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| Development | `npm run dev` | Start Next.js dev server with hot reload |
+| Build | `npm run build` | Create optimized production build |
+| Start | `npm run start` | Serve the production build |
+| Type Check | `npm run typecheck` | TypeScript check without emit |
+| Lint | `npm run lint` | ESLint code quality check |
+
+### Pre-deployment checklist
+
+```bash
+npm run typecheck    # ✅ must pass
+npm run lint         # ✅ must pass
+npm run build        # ✅ must pass
+```
+
+---
+
+## 🔍 How Filtering Works
+
+### Search
 
 ```text
+Input:   "jacket"
+Applied: case-insensitive, trimmed
+Result:  all products with "jacket" in title
+```
+
+### Category
+
+```text
+Selected: "men's clothing"
+Result:   all products in that category
+```
+
+### Combined
+
+```text
+Search: "jacket"  +  Category: "men's clothing"
+Result: products matching BOTH conditions simultaneously
+```
+
+```mermaid
+graph LR
+    A[All Products] --> B{Category filter}
+    B --> C[Category match]
+    C --> D{Search filter}
+    D --> E[✅ Displayed Products]
+
+    style E fill:#e8f5e9
+```
+
+---
+
+## 🎬 Animations
+
+All animations use **Framer Motion** — no CSS-only transitions.
+
+### Product Grid
+
+| Trigger | Animation |
+|---------|-----------|
+| Product leaves filter result | Fade out + scale down |
+| Product enters filter result | Fade in + slide up |
+| Products reposition | Smooth layout transition |
+| No index-based delays | Stays responsive on full catalogue |
+
+### Product Modal
+
+Animated entrance and exit transitions on open/close — smooth without unnecessary complexity.
+
+---
+
+## 📂 Project Structure
+
+```
 product-explorer/
 │
-├── public/
-│   └── ...
-│
-├── src/
-│   ├── app/
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   └── page.tsx
+├── 📁 src/
+│   ├── 📁 app/
+│   │   ├── globals.css          # Global styles
+│   │   ├── layout.tsx           # Root layout
+│   │   └── page.tsx             # Home page
 │   │
-│   ├── components/
-│   │   ├── Filters.tsx
-│   │   ├── ProductCard.tsx
-│   │   ├── ProductGrid.tsx
-│   │   ├── ProductModal.tsx
+│   ├── 📁 components/
+│   │   ├── Filters.tsx          # Search input + category selector
+│   │   ├── ProductCard.tsx      # Animated product card
+│   │   ├── ProductGrid.tsx      # Framer Motion layout grid
+│   │   ├── ProductModal.tsx     # Animated detail modal
 │   │   └── ...
 │   │
-│   ├── hooks/
-│   │   └── useProducts.ts
+│   ├── 📁 hooks/
+│   │   └── useProducts.ts       # Fetch + validate + state management
 │   │
-│   └── types/
-│       └── product.ts
+│   └── 📁 types/
+│       └── product.ts           # Product type definitions
 │
 ├── package.json
-├── postcss.config.js
 ├── tailwind.config.ts
 ├── tsconfig.json
 └── README.md
 ```
 
-## Getting Started
+---
 
-### 1. Clone the repository
+## 🛡️ Data & Error Handling
 
-```bash
-git clone <your-repository-url>
-```
+| State | Behaviour |
+|-------|-----------|
+| **Loading** | Loading state shown while API request is in progress |
+| **Error** | Error state shown if request fails or returns unexpected data — no silent failures |
+| **Empty** | Empty state shown if no products match the current search + category combination |
+| **Validation** | API response is validated before being stored in state — malformed data never reaches the UI |
+| **Normalization** | Frontend-only category normalization — original API data is never modified |
 
-### 2. Navigate to the project
+---
 
-```bash
-cd product-explorer
-```
+## ✅ Assignment Coverage
 
-### 3. Install dependencies
-
-```bash
-npm install
-```
-
-### 4. Start the development server
-
-```bash
-npm run dev
-```
-
-Open the application in your browser at:
-
-```text
-http://localhost:3000
-```
-
-## Available Scripts
-
-### Development
-
-```bash
-npm run dev
-```
-
-Starts the Next.js development server.
-
-### Production Build
-
-```bash
-npm run build
-```
-
-Creates an optimized production build.
-
-### Start Production Server
-
-```bash
-npm run start
-```
-
-Starts the application using the production build.
-
-### Type Checking
-
-```bash
-npm run typecheck
-```
-
-Runs TypeScript type checking without generating files.
-
-### Linting
-
-```bash
-npm run lint
-```
-
-Runs ESLint to identify code-quality issues.
-
-## How It Works
-
-### Product Fetching
-
-The `useProducts` hook is responsible for retrieving products from the Fake Store API.
-
-The response is validated before being stored in application state. This helps prevent unexpected API data from breaking the UI.
-
-### Search
-
-Users can search by product title.
-
-The search is:
-
-- Case-insensitive
-- Trimmed before filtering
-- Combined with the selected category
-
-### Category Filtering
-
-Products can be filtered by category using the category selector and quick filter controls.
-
-The available categories are generated from the loaded product data.
-
-The **All** option displays the complete catalogue.
-
-### Combined Filtering
-
-Search and category filtering are applied together.
-
-For example:
-
-```text
-Search: jacket
-Category: men's clothing
-```
-
-will display only products that satisfy **both** conditions.
-
-### Product Details
-
-Selecting a product opens a detailed product modal containing information such as:
-
-- Product image
-- Product title
-- Category
-- Price
-- Description
-- Rating
-- Number of reviews
-
-The modal can be closed using the close control or supported dismissal interactions.
-
-## Animations
-
-Framer Motion is used for meaningful interface transitions.
-
-### Product Grid
-
-When changing categories:
-
-- Products leaving the result set fade and scale out
-- Newly displayed products subtly fade and move into position
-- Existing products smoothly reposition within the grid
-- Animations do not use index-based delays
-
-This keeps category switching responsive even when displaying the full catalogue.
-
-### Product Modal
-
-The product details modal uses animated entrance and exit transitions to make the interaction feel smooth without introducing unnecessary complexity.
-
-## Responsive Design
-
-The product grid adapts to the viewport:
-
-```text
-Mobile     → 1 column
-Tablet     → 2 columns
-Desktop    → 3 columns
-```
-
-The search and filtering controls also adapt to smaller screen sizes.
-
-## Loading and Error Handling
-
-The application handles different API states.
-
-### Loading
-
-A loading state is displayed while products are being retrieved.
-
-### Error
-
-If the API request fails or returns unexpected data, an error state is shown instead of allowing the application to fail silently.
-
-### Empty Results
-
-If no products match the current search/category combination, the application displays an appropriate empty state.
-
-## Data Normalization
-
-The application performs frontend-only category normalization where required.
-
-This allows the UI to present a more appropriate category while keeping the original API as the product source.
-
-The API data itself is not modified.
-
-## Design Approach
-
-The interface focuses on:
-
-- Clear visual hierarchy
-- Responsive layouts
-- Easy product discovery
-- Fast filtering
-- Meaningful animation
-- Accessible interactions
-- Custom Tailwind-based components
-
-No third-party component/UI library is used.
-
-## Dependencies
-
-The project intentionally keeps dependencies minimal.
-
-Core dependencies include:
-
-```text
-next
-react
-react-dom
-framer-motion
-```
-
-Development dependencies include TypeScript, Tailwind CSS, PostCSS, Autoprefixer, and the required type definitions.
-
-## Validation
-
-Before submitting the project, run:
-
-```bash
-npm run typecheck
-npm run lint
-npm run build
-```
-
-All three commands should complete successfully before deployment or submission.
-
-## Deployment
-
-The application can be deployed to a Next.js-compatible hosting platform.
-
-For a production deployment:
-
-```bash
-npm install
-npm run build
-npm run start
-```
-
-Make sure the deployed environment has network access to:
-
-```text
-https://fakestoreapi.com/products
-```
-
-## Assignment Requirements Covered
-
-| Requirement | Implementation |
-|---|---|
+| Requirement | Status |
+|---|:---:|
 | Next.js / React | ✅ |
 | TypeScript | ✅ |
 | Tailwind CSS | ✅ |
 | Framer Motion | ✅ |
 | Fake Store API | ✅ |
-| Responsive product grid | ✅ |
+| Responsive product grid (1/2/3 col) | ✅ |
 | Product search | ✅ |
 | Case-insensitive search | ✅ |
 | Category filtering | ✅ |
 | Combined search + category filtering | ✅ |
-| Product details | ✅ |
+| Product detail modal | ✅ |
 | Animated transitions | ✅ |
 | Loading state | ✅ |
 | Error handling | ✅ |
@@ -341,8 +235,25 @@ https://fakestoreapi.com/products
 | No UI component library | ✅ |
 | Minimal dependencies | ✅ |
 
-## Author
+---
 
-**Alen Thomas**
+## 🧱 Tech Stack
 
-Built as a responsive Product Explorer application using modern React and Next.js practices.
+| Layer | Technology |
+|-------|------------|
+| Framework | [Next.js 14](https://nextjs.org/) |
+| UI | [React 18](https://react.dev/) + TypeScript |
+| Styling | [Tailwind CSS](https://tailwindcss.com/) — custom components only |
+| Animations | [Framer Motion](https://www.framer.com/motion/) |
+| Data | [Fake Store API](https://fakestoreapi.com/) |
+
+---
+
+<div align="center">
+
+Built with ❤️ by **Alen Thomas**
+
+[![GitHub](https://img.shields.io/badge/GitHub-AIstar007-black?style=for-the-badge&logo=github)](https://github.com/AIstar007)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Alen_Thomas-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/alen-thomas-3558bb187)
+
+</div>
