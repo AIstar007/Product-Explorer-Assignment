@@ -104,12 +104,20 @@ Open `http://localhost:3000`
 | Type Check | `npm run typecheck` | TypeScript check without emit |
 | Lint | `npm run lint` | ESLint code quality check |
 
-### Pre-deployment checklist
+### Validation checklist
 
 ```bash
 npm run typecheck    # ✅ must pass
 npm run lint         # ✅ must pass
 npm run build        # ✅ must pass
+```
+
+### Deployment checklist
+
+```bash
+npm install   
+npm run build         
+npm run start         
 ```
 
 ---
