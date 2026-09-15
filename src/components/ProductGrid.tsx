@@ -1,0 +1,53 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { Product } from "@/types/product";
+import { ProductCard } from "./ProductCard";
+
+interface ProductGridProps {
+  products: Product[];
+  onSelect: (product: Product) => void;
+}
+
+export function ProductGrid({ products, onSelect }: ProductGridProps) {
+  if (products.length === 0) {
+    return (
+      <motion.section
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-7 overflow-hidden rounded-[1.5rem] border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm"
+        aria-live="polite"
+      >
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-lg shadow-slate-900/10">
+          <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
+            <path d="m21 21-4.35-4.35m2.1-5.15a7.25 7.25 0 1 1-14.5 0 7.25 7.25 0 0 1 14.5 0Z" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+          </svg>
+        </div>
+        <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">Nothing matched</p>
+        <h2 className="mt-2 text-xl font-black tracking-tight text-slate-950">No products found</h2>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+          Try a broader search or switch to another category to discover more products.
+        </p>
+      </motion.section>
+    );
+  }
+
+  return (
+    <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <AnimatePresence mode="popLayout">
+        {products.map((product, index) => (
+          <motion.div
+            key={product.id}
+            layout
+            initial={{ opacity: 0, y: 18, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+            transition={{ duration: 0.28, delay: Math.min(index * 0.035, 0.2) }}
+          >
+            <ProductCard product={product} onClick={() => onSelect(product)} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+}
