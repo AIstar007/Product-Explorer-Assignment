@@ -46,24 +46,23 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
     <AnimatePresence>
       {product && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 p-3 backdrop-blur-md sm:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-3 backdrop-blur-lg sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22 }}
           onClick={onClose}
-          role="presentation"
         >
           <motion.div
             key={product.id}
             role="dialog"
             aria-modal="true"
             aria-labelledby="product-modal-title"
-            className="relative max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-[2rem] border border-white/70 bg-white p-3 shadow-[0_35px_100px_-35px_rgba(0,0,0,0.55)] sm:p-4"
-            initial={{ opacity: 0, scale: 0.93, y: 28 }}
+            className="relative max-h-[94vh] w-full max-w-5xl overflow-y-auto rounded-[2rem] border border-white/70 bg-white p-2 shadow-[0_40px_120px_-35px_rgba(0,0,0,0.65)] sm:p-3"
+            initial={{ opacity: 0, scale: 0.9, y: 34 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 18 }}
-            transition={{ type: "spring", stiffness: 330, damping: 28, mass: 0.8 }}
+            exit={{ opacity: 0, scale: 0.96, y: 20 }}
+            transition={{ type: "spring", stiffness: 320, damping: 26, mass: 0.8 }}
             onClick={(event) => event.stopPropagation()}
           >
             <button
@@ -75,59 +74,65 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               ×
             </button>
 
-            <div className="grid overflow-hidden rounded-[1.5rem] bg-slate-50 lg:grid-cols-[0.9fr_1.1fr]">
-              <div className="relative flex min-h-[22rem] items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_45%,white_0%,#f8fafc_55%,#e2e8f0_100%)] p-10 sm:min-h-[30rem]">
-                <div className="absolute left-8 top-8 h-24 w-24 rounded-full bg-white/80 blur-2xl" />
-                <motion.div
-                  layoutId={`product-image-${product.id}`}
-                  className="relative flex h-full w-full items-center justify-center"
-                >
+            <div className="grid overflow-hidden rounded-[1.5rem] bg-slate-50 lg:grid-cols-[0.92fr_1.08fr]">
+              <div className="relative flex min-h-[23rem] items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_50%_40%,#ffffff_0%,#f8fafc_52%,#e2e8f0_100%)] p-10 sm:min-h-[34rem]">
+                <div className="absolute left-8 top-8 h-32 w-32 rounded-full bg-white/80 blur-3xl" />
+                <div className="absolute bottom-10 h-10 w-52 rounded-full bg-slate-300/35 blur-2xl" />
+                <motion.div layoutId={`product-image-${product.id}`} className="relative flex h-full w-full items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={product.image}
                     alt={product.title}
-                    className="max-h-[22rem] w-auto max-w-[80%] object-contain drop-shadow-[0_25px_25px_rgba(15,23,42,0.16)]"
+                    className="max-h-[25rem] w-auto max-w-[82%] object-contain drop-shadow-[0_30px_30px_rgba(15,23,42,0.18)]"
                   />
                 </motion.div>
+                <span className="absolute bottom-6 left-6 rounded-full border border-white/80 bg-white/85 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.16em] text-slate-500 shadow-sm backdrop-blur">
+                  Product #{product.id}
+                </span>
               </div>
 
-              <div className="flex flex-col justify-center bg-white p-7 sm:p-10">
+              <div className="flex flex-col justify-center bg-white p-7 sm:p-11">
                 <div className="flex flex-wrap items-center gap-2 pr-12">
-                  <span className="rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white">
+                  <motion.span layout className="rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.15em] text-white">
                     {formatCategory(product.category)}
-                  </span>
-                  <span className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400">
-                    Product #{product.id}
+                  </motion.span>
+                  <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-black text-slate-700">
+                    <StarIcon /> {product.rating.rate.toFixed(1)}
                   </span>
                 </div>
 
-                <h2 id="product-modal-title" className="mt-5 text-3xl font-black leading-tight tracking-[-0.03em] text-slate-950 sm:text-4xl">
+                <h2 id="product-modal-title" className="mt-6 text-3xl font-black leading-tight tracking-[-0.035em] text-slate-950 sm:text-4xl">
                   {product.title}
                 </h2>
 
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <span className="text-3xl font-black tracking-tight text-slate-950">${product.price.toFixed(2)}</span>
-                  <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-sm font-bold text-slate-700">
-                    <StarIcon />
-                    {product.rating.rate.toFixed(1)}
-                  </span>
-                  <span className="text-sm font-medium text-slate-400">{product.rating.count} reviews</span>
+                <div className="mt-6 flex flex-wrap items-end gap-x-4 gap-y-2">
+                  <span className="text-4xl font-black tracking-tight text-slate-950">${product.price.toFixed(2)}</span>
+                  <span className="pb-1 text-sm font-semibold text-slate-400">{product.rating.count} customer reviews</span>
                 </div>
 
-                <div className="my-7 h-px bg-slate-100" />
+                <div className="my-8 h-px bg-slate-100" />
 
                 <p className="text-sm leading-7 text-slate-600 sm:text-[15px]">{product.description}</p>
 
-                <div className="mt-8 flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Catalogue status</p>
-                    <p className="mt-1 text-sm font-bold text-slate-800">Available to explore</p>
+                <div className="mt-8 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">Rating</p>
+                    <p className="mt-2 text-lg font-black text-slate-950">{product.rating.rate.toFixed(1)} / 5</p>
                   </div>
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm">
-                    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
-                      <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
+                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">Reviews</p>
+                    <p className="mt-2 text-lg font-black text-slate-950">{product.rating.count}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between rounded-2xl bg-slate-950 px-4 py-4 text-white">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">Catalogue status</p>
+                    <p className="mt-1 text-sm font-bold">Available to explore</p>
+                  </div>
+                  <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10">
+                    <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </motion.span>
                 </div>
               </div>
             </div>

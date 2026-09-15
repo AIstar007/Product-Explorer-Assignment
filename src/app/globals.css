@@ -24,6 +24,13 @@ select {
   font: inherit;
 }
 
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
 ::selection {
   background: #0f172a;
   color: #fff;
@@ -32,4 +39,19 @@ select {
 * {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
